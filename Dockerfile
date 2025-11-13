@@ -14,11 +14,4 @@ COPY --from=builder /build/backend/target/*.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
 
-# Modo por defecto: web
-ENV APP_ROLE=web
-# Si APP_ROLE=worker arrancaremos la clase/runner del worker (sección C)
-CMD [ "sh", "-c", "if [ \"$APP_ROLE\" = \"worker\" ]; then \
-    java -jar app.jar --spring.profiles.active=worker; \
-  else \
-    java -jar app.jar; \
-  fi" ]
+CMD ["java", "-jar", "app.jar"]

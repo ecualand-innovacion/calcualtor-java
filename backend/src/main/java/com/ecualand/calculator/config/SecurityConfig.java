@@ -72,8 +72,7 @@ public class SecurityConfig {
             "script-src 'self' https://cdn.tailwindcss.com; " +
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
             "font-src 'self' https://fonts.gstatic.com; " +
-            // Permite llamadas fetch/XHR al origen del frontend
-            "connect-src 'self' " + allowedOrigins + ";"
+            "connect-src 'self' https://*.railway.app;"
         ));
         h.referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER));
         h.permissionsPolicy(p -> p.policy("geolocation=(), microphone=(), camera=()"));
@@ -86,7 +85,12 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration cfg = new CorsConfiguration();
     // Dividimos la lista de orígenes permitidos por comas por si hay más de uno
-    cfg.setAllowedOrigins(List.of(allowedOrigins.split(",")));
+    // Permite múltiples orígenes separados por comas
+    String[] origins = allowedOrigins.split(",");
+    for (int i = 0; i < origins.length; i++) {
+        origins[i] = origins[i].trim();
+    }
+    cfg.setAllowedOrigins(List.of(origins));
     cfg.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
     // Permitimos Content-Type y Authorization para enviar credenciales básicas
     cfg.setAllowedHeaders(List.of("Content-Type", "Authorization"));
