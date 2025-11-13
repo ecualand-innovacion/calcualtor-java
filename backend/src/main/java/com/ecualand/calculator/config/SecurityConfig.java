@@ -25,10 +25,10 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  @Value("${BASIC_USER:admin}")
+  @Value("${BASIC_USER:admin@ecualand.com}")
   private String basicUser;
 
-  @Value("${BASIC_PASS:admin}")
+  @Value("${BASIC_PASS:@admin_controller#$%_master}")
   private String basicPass;
 
   // Orígenes permitidos para CORS (para Railway pon aquí tu dominio frontend)
